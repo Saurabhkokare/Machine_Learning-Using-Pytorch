@@ -1,0 +1,5 @@
+# Ignore Jupyter notebooks
+*.ipynb
+
+# Ignore all PyTorch model files inside models folder
+*.pth
