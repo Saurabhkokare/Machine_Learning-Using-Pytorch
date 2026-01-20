@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import matplotlib.pyplot as plt
 from pathlib import Path
 
 # -----------------------------
@@ -13,7 +14,7 @@ class SupportVectorMachineModel(nn.Module):
         self.bias = nn.Parameter(torch.randn(1))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.weights * x + self.bias  # decision score
+        return self.weights * x + self.bias
 
 
 # -----------------------------
@@ -36,6 +37,9 @@ def train_model(
     epochs,
     C=1.0
 ):
+    train_losses = []
+    test_losses = []
+
     for epoch in range(epochs):
 
         # ---- Training ----
@@ -54,6 +58,9 @@ def train_model(
             test_scores = model(X_test)
             test_loss = hinge_loss(test_scores, y_test)
 
+        train_losses.append(loss.item())
+        test_losses.append(test_loss.item())
+
         if epoch % 10 == 0:
             print(
                 f"Epoch {epoch:03d} | "
@@ -61,7 +68,22 @@ def train_model(
                 f"Test Loss: {test_loss.item():.4f}"
             )
 
+    # -----------------------------
+    # Plot Loss Curves (AFTER training)
+    # -----------------------------
+    plt.figure(figsize=(8, 5))
+    plt.plot(train_losses, label="Train Loss")
+    plt.plot(test_losses, label="Test Loss")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.title("SVM Training vs Test Loss")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+    # -----------------------------
     # Save model
+    # -----------------------------
     MODEL_PATH = Path("models")
     MODEL_PATH.mkdir(exist_ok=True)
     torch.save(model.state_dict(), MODEL_PATH / "svm_model.pth")
@@ -74,13 +96,12 @@ def train_model(
 torch.manual_seed(42)
 
 x = torch.empty(200, 1).uniform_(-50, 50)
-y = torch.where(x > 5, 1.0, -1.0)  # SVM labels {-1, +1}
+y = torch.where(x > 5, 1.0, -1.0)
 
 split = int(0.8 * len(x))
 x_train, x_test = x[:split], x[split:]
 y_train, y_test = y[:split], y[split:]
 
-print(f"y_train:{y_train}, y_test: {y_test}")
 # -----------------------------
 # Train
 # -----------------------------
@@ -103,7 +124,7 @@ train_model(
 # -----------------------------
 model.eval()
 with torch.no_grad():
-    sample = torch.tensor([4.0, 6.0])
+    sample = torch.tensor([[4.0], [6.0]])
     scores = model(sample)
     predictions = torch.sign(scores)
 
