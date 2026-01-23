@@ -9,7 +9,7 @@ The `SupportVectorMachineModel` class implements a linear SVM:
 - **Learnable Parameters**: 
   - `weights`: Weight parameter (w)
   - `bias`: Bias parameter (b)
-- **Output**: Linear score: `w*x + b`
+- **Output**: Linear score: `w*x+b`
   - Positive score → class +1
   - Negative score → class -1
 
