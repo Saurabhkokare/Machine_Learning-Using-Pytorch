@@ -73,7 +73,7 @@ def train_model(
     MODEL_PATH = Path("models")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
 
-    MODEL_NAME = "Logistic_regression_model.pth"
+    MODEL_NAME = "Logistic_reg_model.pth"
     MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
     print(f"\nSaving model to: {MODEL_SAVE_PATH}")
