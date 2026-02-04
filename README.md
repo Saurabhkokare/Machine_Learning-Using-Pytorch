@@ -29,6 +29,7 @@ The focus of this project is to understand algorithms from first principles by i
 
 ### Deep Learning
 - Artificial Neural Network (ANN)
+- Artificial Neural Network (ANN)(Multiclass Classification)
 - Multi-Layer Perceptron (MLP)
 - Binary Classification using `BCEWithLogitsLoss`
 - Regression using `MSELoss`
