@@ -3,3 +3,5 @@
 
 # Ignore all PyTorch model files inside models folder
 *.pth
+
+data/
